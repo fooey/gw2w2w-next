@@ -6,7 +6,6 @@ import _ from 'lodash';
 class PostList extends Component {
 
     onRefreshClicked() {
-        console.log('onRefreshClicked');
         this.props.data.refetch();
     }
 
@@ -16,8 +15,6 @@ class PostList extends Component {
         const { matches, loading, _matchesMeta } = data;
 
         if (loading) return <div>Loading</div>;
-
-        console.log('data', data);
 
         return <div>
             <p><button onClick={() => this.onRefreshClicked()}>Refresh</button></p>
@@ -142,7 +139,7 @@ export default graphql(matches, {
         //   skip: 0,
         //   first: POSTS_PER_PAGE
         },
-        pollInterval: 1000 * 3,
+        pollInterval: 1000 * 4,
     },
     props: ({ data }) => ({
         data,
