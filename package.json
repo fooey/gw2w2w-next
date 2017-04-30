@@ -1,0 +1,25 @@
+{
+  "name": "gw2w2w-next",
+  "version": "2017.0.1",
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint src",
+    "lint-watch": "esw components lib pages --watch",
+    "esw": "yarn lint-watch"
+  },
+  "dependencies": {
+    "babel-eslint": "^7.2.3",
+    "eslint": "^3.19.0",
+    "eslint-plugin-react": "^6.10.3",
+    "eslint-watch": "^3.1.0",
+    "graphql": "^0.9.1",
+    "lodash": "^4.17.4",
+    "next": "latest",
+    "react": "^15.4.2",
+    "react-apollo": "^1.0.0-rc.3"
+  },
+  "author": "",
+  "license": "ISC"
+}
