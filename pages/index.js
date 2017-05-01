@@ -2,13 +2,15 @@ import React from 'react';
 
 import App from '../components/App';
 import Header from '../components/Header';
-// import Submit from '../components/Submit'
-import PostList from '../components/PostList';
+import Matches from '../components/Matches';
 import withData from '../lib/withData';
+
+import stylesheet from '../styles/index.scss';
 
 export default withData((props) => (
 	<App>
-		<Header pathname={props.url.pathname}/> {/* <Submit /> */}
-		<PostList/>
+		<style dangerouslySetInnerHTML={{ __html: stylesheet }} />
+		<Header pathname={props.url.pathname}/>
+		<Matches/>
 	</App>
 ));

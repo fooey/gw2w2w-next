@@ -1,0 +1,15 @@
+$red: #f00;
+$green: #0f0;
+$blue: #00f;
+
+.team-red { color: $red; }
+.team-green { color: $green; }
+.team-blue { color: $blue; }
+
+.app {
+	background-color: #ff0;
+}
+
+.match-scores {
+	text-align: right;
+}
