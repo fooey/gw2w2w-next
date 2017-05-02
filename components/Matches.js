@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import { gql, graphql } from 'react-apollo';
 import classnames from 'classnames';
 import _ from 'lodash';
+import numeral from 'numeral';
 
 const COLORS = ['red', 'blue', 'green'];
 const LANG_SLUG = 'en';
 
 
 class Matches extends Component {
-
     onRefreshClicked() {
         return this.props.data.refetch();
     }
@@ -21,38 +21,27 @@ class Matches extends Component {
 
 		console.log('_matchesMeta', _matchesMeta);
 
-        return <div className="container">
-            <div className="row">
-				<div className="col">
-					<p><button onClick={() => this.onRefreshClicked()}>Refresh</button></p>
-				</div>
-			</div>
+        return <div className="container matches">
             {matches && matches.length ? (
 				<div className="row">
-					<div className="col">
-						<table className="table">
-							<tbody>
+					{_.map(['NA', 'EU'], region => (
+						<div className="col-md" key={region}>
+							<div className="card">
 								{_.chain(matches)
-									.filter({ region: 'NA' })
+									.filter({ region })
 									.sortBy('id')
 									.map(match => <Match key={match.id} match={match} />)
 									.value()}
-							</tbody>
-						</table>
-					</div>
-					<div className="col">
-						<table className="table">
-							<tbody>
-								{_.chain(matches)
-									.filter({ region: 'EU' })
-									.sortBy('id')
-									.map(match => <Match key={match.id} match={match} />)
-									.value()}
-							</tbody>
-						</table>
-					</div>
+							</div>
+						</div>
+					))}
 				</div>
             ) : null}
+            <div className="row">
+				<div className="col">
+					<p><button className='btn btn-primary waves-effect waves-light' onClick={() => this.onRefreshClicked()}>Refresh</button></p>
+				</div>
+			</div>
             <pre>matches: {JSON.stringify(matches, null, '\t')}</pre>
         </div>;
     }
@@ -61,11 +50,11 @@ class Matches extends Component {
 
 const Match = ({ match }) =>  {
     return (
-        <tr key={match.id} className="match">
-            <td><MatchWorlds matchWorlds={match.worlds} /></td>
-            <td><MatchScores matchScores={match.scores} /></td>
-            <td><Pie matchScores={match.scores} /></td>
-        </tr>
+        <div key={match.id} className="match row">
+			<div className="col-3"><Pie matchScores={match.scores} /></div>
+            <div className="col-6"><MatchWorlds matchWorlds={match.worlds} /></div>
+            <div className="col-3"><MatchScores matchScores={match.scores} /></div>
+        </div>
     );
 };
 
@@ -73,14 +62,13 @@ const MatchWorlds = ({ matchWorlds }) => (
 	<div className="match-worlds">{
 		_.map(COLORS, color => {
 			const world = _.get(matchWorlds, color);
-			const cn = classnames({
+			const className = classnames({
 				"match-worlds-world": true,
 				[`team-${color}`]: true,
 			});
 
 			return (
-				<div key={color} className={cn}>
-					{color}:
+				<div key={color} className={className}>
 					{_.get(world, [LANG_SLUG,'name'], 'ERR')}
 				</div>
 			);
@@ -90,11 +78,18 @@ const MatchWorlds = ({ matchWorlds }) => (
 
 const MatchScores = ({ matchScores }) => (
 	<div className="match-scores">{
-		_.map(COLORS, (color) => (
-			<div key={color} className="match-scores">
-				{matchScores[color]}
-			</div>
-		))
+		_.map(COLORS, (color) => {
+			const className = classnames({
+				"match-scores-world": true,
+				[`team-${color}`]: true,
+			});
+
+			return (
+				<div key={color} className={className}>
+					{numeral(matchScores[color]).format(',')}
+				</div>
+			);
+		})
 	}</div>
 );
 
