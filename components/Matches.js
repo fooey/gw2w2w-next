@@ -30,7 +30,7 @@ class Matches extends Component {
 								{_.chain(matches)
 									.filter({ region })
 									.sortBy('id')
-									.map(match => <Match key={match.id} match={match} />)
+									.map((match, i) => <Match key={match.id} match={match} i={i} />)
 									.value()}
 							</div>
 						</div>
@@ -48,12 +48,12 @@ class Matches extends Component {
 }
 
 
-const Match = ({ match }) =>  {
+const Match = ({ match, i }) =>  {
     return (
-        <div key={match.id} className="match row">
-			<div className="col-3"><Pie matchScores={match.scores} /></div>
-            <div className="col-6"><MatchWorlds matchWorlds={match.worlds} /></div>
-            <div className="col-3"><MatchScores matchScores={match.scores} /></div>
+		<div key={match.id} className={`match row align-items-center row-${i%2}`}>
+			<div className="col-md-auto text-center"><Pie matchScores={match.scores} /></div>
+            <div className="col"><MatchWorlds matchWorlds={match.worlds} /></div>
+            <div className="col-md-auto"><MatchScores matchScores={match.scores} /></div>
         </div>
     );
 };
